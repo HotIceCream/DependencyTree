@@ -1,6 +1,10 @@
 package com.hoticecream.dependency.tree
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
@@ -41,6 +50,9 @@ fun HighlightedTree(
     level: Int = 0,
 ) {
     var isExpanded by remember { mutableStateOf(initiallyExpanded) }
+    var isSelected by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     Column(
         modifier = Modifier.padding(start = (level * 24).dp)
@@ -48,8 +60,36 @@ fun HighlightedTree(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { isExpanded = !isExpanded }
-                .padding(8.dp),
+                .focusable(
+                    enabled = true,
+                    interactionSource = interactionSource
+                )
+                .onKeyEvent { keyEvent ->
+                    when {
+                        keyEvent.type == KeyEventType.KeyDown &&
+                           keyEvent.key == Key.DirectionRight -> {
+                            isExpanded = true
+                            true
+                        }
+                        keyEvent.type == KeyEventType.KeyDown &&
+                           keyEvent.key == Key.DirectionLeft -> {
+                            isExpanded = false
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                .clickable {
+                    isExpanded = !isExpanded
+                    isSelected = true
+                }
+                .padding(8.dp)
+                .background(
+                    if (isFocused || isSelected)
+                        MaterialTheme.colors.primary.copy(alpha = 0.1f)
+                    else
+                        Color.Transparent
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (node.children.isNotEmpty()) {

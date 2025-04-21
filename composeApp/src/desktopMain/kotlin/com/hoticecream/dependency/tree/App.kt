@@ -42,7 +42,6 @@ fun App() {
                 selectedFile?.let { file ->
                     Text("Selected File: $file")
                     error?.let { Text("Error: $error") }
-                    //tree?.let { Text("Dependency Tree: $tree") }
 
                     tree?.let { ComprehensiveSearchableTree(it) }
                 }
