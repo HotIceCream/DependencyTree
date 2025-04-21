@@ -1,11 +1,40 @@
-This is a Kotlin Multiplatform project targeting Desktop.
+## Disclaimer: This project AI generated. Even this readme was generated
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+# Dependency Tree Viewer
 
+A Kotlin-based desktop application for visualizing and analyzing dependency trees using Compose Desktop.
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Overview
+
+This application provides an interactive visualization of dependency trees, specifically designed for examining Gradle/Maven dependency outputs. It offers features like search, filtering, and version tracking to help developers understand and analyze their project dependencies.
+
+## Features
+
+- **Interactive Tree Visualization**
+  - Collapsible/expandable nodes
+  - Visual hierarchy with indentation
+  - Clear version transition indicators (-> arrows)
+  - Smooth animations for tree operations
+
+- **Advanced Search Capabilities**
+  - Real-time filtering
+  - Highlights matching text
+  - Preserves tree structure during search
+  - Auto-expands relevant branches
+
+- **Version Tracking**
+  - Shows original versions
+  - Displays version transitions
+  - Tracks circular dependencies
+
+- **User Interface**
+  - Clean, modern Material Design
+  - Responsive layout
+  - Custom scrollbar for desktop
+  - Keyboard navigation support
+
+## Input Format
+
+The application accepts dependency trees in the following [format](example.txt)
+
+![Screenshot](example.png)
